@@ -1,38 +1,25 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './Navbar';
+import Home from './Home'
+import About from './About';
+import Login from './Login';
+import Chat from './Chat';
+import Support from './Support';
 
-const Chatbot = () => {
-  const [userInput, setUserInput] = useState('');
-  const [response, setResponse] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    try {
-      const res = await axios.post('http://localhost:3001/api/process', { userInput });
-      setResponse(res.data.result);
-    } catch (error) {
-      setResponse('Error occurred while processing your request.');
-    }
-  };
-
+function App() {
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          placeholder="Ask me something..."
-        />
-        <button type="submit">Send</button>
-      </form>
-      <div>
-        <h3>Response:</h3>
-        <p>{response}</p>
-      </div>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/support" element={<Support />} />
+      </Routes>
+    </Router>
   );
-};
+}
 
-export default Chatbot;
+export default App;
